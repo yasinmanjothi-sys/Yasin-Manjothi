@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import gsap from 'gsap';
-import { Project } from './WorksGrid';
+import { Project } from '@/data/projects';
 
 interface ProjectOverlayProps {
   project: Project;
@@ -54,7 +54,7 @@ export default function ProjectOverlay({ project, onClose }: ProjectOverlayProps
       <div ref={contentRef} className="overlay-scroll-container" data-lenis-prevent>
         <div className="metadata-container">
           <div className="meta-left">
-            <h1 className="project-title with-cursor">{project.title}</h1>
+            <h2 className="project-title with-cursor">{project.title}</h2>
             <p className="project-brief">{project.brief}</p>
           </div>
           

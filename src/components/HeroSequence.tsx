@@ -11,10 +11,10 @@ if (typeof window !== "undefined") {
 
 const SEQUENCE = [
   { text: "Yasin Manjothi", holdParams: 2 },
-  { text: "Graphic Designer", holdParams: 1.2 },
   { text: "Marketing Strategist", holdParams: 1.2 },
   { text: "Web Designer", holdParams: 1.2 },
   { text: "Event Producer", holdParams: 1.2 },
+  { text: "Graphic Designer", holdParams: 1.2 },
   { text: "Artist", holdParams: 1.2 },
   { text: "Multidisciplinary Creative", holdParams: 1.2 } // End state
 ];

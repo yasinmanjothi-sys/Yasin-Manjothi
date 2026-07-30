@@ -11,7 +11,7 @@ const permanentMarker = Permanent_Marker({
 
 export const metadata: Metadata = {
   title: "Yasin Manjothi — Multidisciplinary Creative",
-  description: "Portfolio of Yasin Manjothi. Creative Lead, Graphic Designer, Web Designer, Event Producer.",
+  description: "Yasin Manjothi — brand identity, marketing, and event design work, plus full-stack web development for real clients. Design and code, one portfolio.",
 };
 
 export default function RootLayout({

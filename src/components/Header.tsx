@@ -1,19 +1,31 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 import gsap from 'gsap';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === '/';
+  const LogoTag = isHome ? 'h1' : 'p';
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  // On the homepage, these are same-page smooth-scrolls. On any other page
+  // (e.g. a case study article), the href already points at "/#id" so the
+  // browser just navigates there — no interception needed.
   const scrollTo = (id: string, e: React.MouseEvent) => {
+    if (!isHome) {
+      setIsOpen(false);
+      return;
+    }
     e.preventDefault();
     setIsOpen(false);
-    
+
     // Slight delay to allow menu to close before scrolling
     setTimeout(() => {
       const el = document.getElementById(id);
@@ -49,9 +61,9 @@ export default function Header() {
   return (
     <>
       <header className="brutalist-header">
-        <div className="logo with-cursor">
-          YASIN MANJOTHI
-        </div>
+        <LogoTag className="logo with-cursor">
+          <Link href="/">YASIN MANJOTHI</Link>
+        </LogoTag>
         <button className="menu-toggle" onClick={toggleMenu}>
            [ {isOpen ? 'CLOSE' : 'MENU'} ]
         </button>
@@ -61,14 +73,17 @@ export default function Header() {
         <nav className="menu-nav">
           <div className="menu-section">
             <span className="section-label">01. NAVIGATION</span>
-            <a href="#about" className="menu-link" onClick={(e) => scrollTo('about', e)}>PROFILE</a>
-            <a href="#works" className="menu-link" onClick={(e) => scrollTo('works', e)}>WORKS</a>
+            <Link href="/#about" className="menu-link" onClick={(e) => scrollTo('about', e)}>PROFILE</Link>
+            <Link href="/#design" className="menu-link" onClick={(e) => scrollTo('design', e)}>DESIGN &amp; MARKETING</Link>
+            <Link href="/#development" className="menu-link" onClick={(e) => scrollTo('development', e)}>DEVELOPMENT</Link>
+            <Link href="/#case-studies" className="menu-link" onClick={(e) => scrollTo('case-studies', e)}>RECENT CASE STUDIES</Link>
           </div>
 
           <div className="menu-section">
             <span className="section-label">02. SOCIALS</span>
-            <a href="https://www.behance.net/yasinmanjo84df" target="_blank" className="menu-link">BEHANCE</a>
-            <a href="https://www.instagram.com/yasin_manjothi/" target="_blank" className="menu-link">INSTAGRAM</a>
+            <a href="https://github.com/yasinmanjothi-sys" target="_blank" rel="noopener noreferrer" className="menu-link">GITHUB</a>
+            <a href="https://www.behance.net/yasinmanjo84df" target="_blank" rel="noopener noreferrer" className="menu-link">BEHANCE</a>
+            <a href="https://www.instagram.com/yasin_manjothi/" target="_blank" rel="noopener noreferrer" className="menu-link">INSTAGRAM</a>
           </div>
         </nav>
       </div>
@@ -144,7 +159,9 @@ export default function Header() {
           opacity: 0.4;
         }
 
-        .menu-link {
+        /* :global() here because next/link doesn't forward styled-jsx's
+           scoping class the way a plain <a> would. */
+        :global(.menu-link) {
           font-size: clamp(3rem, 8vw, 8rem);
           font-weight: bold;
           text-decoration: none;
@@ -154,7 +171,7 @@ export default function Header() {
           transition: color 0.3s ease;
         }
 
-        .menu-link:hover {
+        :global(.menu-link:hover) {
           color: var(--accent-color);
         }
 
@@ -163,7 +180,7 @@ export default function Header() {
             grid-template-columns: 1fr;
             gap: 10vh;
           }
-          .menu-link {
+          :global(.menu-link) {
             font-size: 3rem;
           }
         }

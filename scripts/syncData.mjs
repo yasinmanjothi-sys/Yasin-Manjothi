@@ -7,16 +7,24 @@ const DOMAINS = [
   '01_identity_design',
   '02_digital_experiences',
   '03_strategic_marketing',
-  '04_event_production'
+  '04_event_production',
+  '05_dev_projects'
 ];
+
+// Design & Marketing vs Development split. Everything defaults to "design"
+// except the coded-build domains, which default to "development". A project
+// can override this with an explicit "## Section" field in details.md.
+const DEVELOPMENT_DOMAINS = new Set(['02_digital_experiences', '05_dev_projects']);
 
 const PUBLIC_PROJECTS_DIR = path.join(process.cwd(), 'public', 'projects');
 const DATA_OUTPUT_PATH = path.join(process.cwd(), 'src', 'data', 'projects.json');
 
-// Ensure destination directories exist
-if (!fs.existsSync(PUBLIC_PROJECTS_DIR)) {
-  fs.mkdirSync(PUBLIC_PROJECTS_DIR, { recursive: true });
+// Wipe and recreate the destination dir each run so removed/renamed
+// projects don't leave orphaned image copies behind.
+if (fs.existsSync(PUBLIC_PROJECTS_DIR)) {
+  fs.rmSync(PUBLIC_PROJECTS_DIR, { recursive: true, force: true });
 }
+fs.mkdirSync(PUBLIC_PROJECTS_DIR, { recursive: true });
 if (!fs.existsSync(path.dirname(DATA_OUTPUT_PATH))) {
   fs.mkdirSync(path.dirname(DATA_OUTPUT_PATH), { recursive: true });
 }
@@ -67,7 +75,7 @@ const parseMarkdown = (mdContent) => {
   const titleMatch = mdContent.match(/^#\s+(.+)$/m);
   if (titleMatch) data.title = titleMatch[1].trim();
 
-  const sections = ['Client', 'Campaign', 'Year', 'Role', 'Brief', 'Scope of Work', 'Key Deliverables', 'Tools Used', 'Tags', 'Website'];
+  const sections = ['Client', 'Campaign', 'Year', 'Role', 'Brief', 'Scope of Work', 'Key Deliverables', 'Tools Used', 'Tags', 'Website', 'Section'];
   sections.forEach(sec => {
     const regex = new RegExp(`## ${sec}\\n([\\s\\S]*?)(?=\\n## |$)`);
     const match = mdContent.match(regex);
@@ -96,6 +104,10 @@ DOMAINS.forEach(domain => {
     if (fs.existsSync(metaPath)) {
       const mdContent = fs.readFileSync(metaPath, 'utf8');
       projectMeta = { ...projectMeta, ...parseMarkdown(mdContent) };
+    }
+
+    if (!projectMeta.section) {
+      projectMeta.section = DEVELOPMENT_DOMAINS.has(domain) ? 'development' : 'design';
     }
 
     // Process Hero Images
