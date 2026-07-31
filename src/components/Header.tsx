@@ -136,7 +136,8 @@ export default function Header() {
           z-index: 1500;
           display: flex;
           align-items: center;
-          padding: 0 10vw;
+          padding: 4vh 10vw;
+          overflow-y: auto;
           clip-path: circle(0% at 95% 5%);
         }
 
@@ -155,19 +156,22 @@ export default function Header() {
         .section-label {
           font-family: var(--font-mono);
           font-size: 0.9rem;
-          margin-bottom: 2rem;
+          margin-bottom: 1.5rem;
           opacity: 0.4;
         }
 
         /* :global() here because next/link doesn't forward styled-jsx's
-           scoping class the way a plain <a> would. */
+           scoping class the way a plain <a> would.
+           Sized in vw + a rem cap so a long single word (e.g. INSTAGRAM)
+           never outgrows its column, and four stacked items (some
+           wrapping to two lines) still fit inside the viewport height. */
         :global(.menu-link) {
-          font-size: clamp(3rem, 8vw, 8rem);
+          font-size: clamp(1.8rem, 4.2vw, 5rem);
           font-weight: bold;
           text-decoration: none;
           color: inherit;
-          line-height: 1;
-          margin-bottom: 1.5rem;
+          line-height: 1.05;
+          margin-bottom: 0.75rem;
           transition: color 0.3s ease;
         }
 
@@ -178,10 +182,10 @@ export default function Header() {
         @media (max-width: 768px) {
           .menu-nav {
             grid-template-columns: 1fr;
-            gap: 10vh;
+            gap: 6vh;
           }
           :global(.menu-link) {
-            font-size: 3rem;
+            font-size: 2.2rem;
           }
         }
       `}</style>
