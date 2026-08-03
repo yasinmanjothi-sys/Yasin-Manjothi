@@ -81,6 +81,7 @@ export default function Header() {
 
           <div className="menu-section">
             <span className="section-label">02. SOCIALS</span>
+            <a href="/Yasin-Manjothi-CV.pdf" target="_blank" rel="noopener noreferrer" className="menu-link">CV</a>
             <a href="https://github.com/yasinmanjothi-sys" target="_blank" rel="noopener noreferrer" className="menu-link">GITHUB</a>
             <a href="https://www.behance.net/yasinmanjo84df" target="_blank" rel="noopener noreferrer" className="menu-link">BEHANCE</a>
             <a href="https://www.instagram.com/yasin_manjothi/" target="_blank" rel="noopener noreferrer" className="menu-link">INSTAGRAM</a>
